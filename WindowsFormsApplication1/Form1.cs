@@ -53,10 +53,12 @@ namespace WindowsFormsApplication1
                     Program.estru.declara_autor(i); // constroi o autor no array
                     Program.estru.autor[i].adiciona(i, root.GetAttribute("NOME-EM-CITACOES-BIBLIOGRAFICAS"), root.GetAttribute("NOME-COMPLETO"));// atribuit todos os dados do autor
                     if (next[1].ChildNodes[0] != null)// verifica se o nodo não é vazio para evitar erros de referencia
+                    
                     foreach (XmlElement artigos in next[1].ChildNodes[0]) //transforma o nodo PRODUCAO-BIBLIOGRAFICA/TRABALHOS-EM-EVENTOS em um elemento para esse nodo
                     {
                         XmlElement codigo = (XmlElement)artigos.ChildNodes[0]; // pega o elemento de DADOS-BASICOS-DO-TRABALHO 
                         XmlNode procura = artigos; // pega a estrutura nodo TRABALHOS-EM-EVENTOS
+                        string autor="";
                         List<string> coautores = new List<string>();// para pegar o nome dos autores
                        // dar valor da natureza da conferencia
                         int natureza = 0;// para COMPLETO
@@ -66,14 +68,18 @@ namespace WindowsFormsApplication1
                             natureza = 1;//para ESTENDIDO
                         //contador dos coautores
                         int contador = 0;
+                        
                             foreach (XmlElement autoria in procura.SelectNodes("AUTORES"))// pesquisa todos os nodos AUTORES
                             {
-                                if (autoria.GetAttribute("NOME-COMPLETO-DO-AUTOR") != root.GetAttribute("NOME-COMPLETO"))// verifica se é coautor
+                                if (autoria.GetAttribute("ORDEM-DE-AUTORIA") == "1")
+                                {
+                                    autor = autoria.GetAttribute("NOME-COMPLETO-DO-AUTOR");
+                                }
+                                else
                                 {
                                     coautores.Add(autoria.GetAttribute("NOME-COMPLETO-DO-AUTOR")); // da o nome completo desse co autor
                                     contador++; // adiciona coautor
                                 }
-
                             }
                             int data=0; // se a data for 0 é considerado que não foi dada ou está com erro
                             if (codigo.GetAttribute("ANO-DO-ARTIGO") == "") // caso não seja dada a data
@@ -83,7 +89,7 @@ namespace WindowsFormsApplication1
                             if (data > 2013 || data < 1900)// para evitar anos absurdos
                                 data = 0;
                         // adiciona dados da conferencia
-                            Program.estru.conf.adiciona(Program.estru.coferencia.Count, codigo.GetAttribute("TITULO-DO-TRABALHO"), natureza, data, contador, i, coautores);
+                            Program.estru.conf.adiciona(Program.estru.coferencia.Count, codigo.GetAttribute("TITULO-DO-TRABALHO"), natureza, data, contador, autor, coautores);
                         /*    Debug.WriteLine(Program.estru.conf.codigo);
                             Debug.WriteLine(Program.estru.conf.ano);
                             Debug.WriteLine(Program.estru.conf.quantcoautores);
@@ -101,6 +107,7 @@ namespace WindowsFormsApplication1
                     {
                         XmlElement codigo = (XmlElement)artigos.ChildNodes[0];
                         XmlNode procura = artigos;
+                        string autor="";
                         List<string> coautores = new List<string>();
                         int contador = 0;
                           
@@ -112,12 +119,17 @@ namespace WindowsFormsApplication1
                                 natureza = 2;
                             if (codigo.GetAttribute("NATUREZA") == "ESTENDIDO")
                                 natureza = 1;
+
                             foreach (XmlElement autoria in procura.SelectNodes("AUTORES"))
                             {
-                                if (autoria.GetAttribute("NOME-COMPLETO-DO-AUTOR") != root.GetAttribute("NOME-COMPLETO"))
+                                if (autoria.GetAttribute("ORDEM-DE-AUTORIA") == "1")
                                 {
-                                    coautores.Add(autoria.GetAttribute("NOME-COMPLETO-DO-AUTOR"));
-                                    contador++;
+                                    autor = autoria.GetAttribute("NOME-COMPLETO-DO-AUTOR");
+                                }
+                                else
+                                {
+                                    coautores.Add(autoria.GetAttribute("NOME-COMPLETO-DO-AUTOR")); // da o nome completo desse co autor
+                                    contador++; // adiciona coautor
                                 }
                             }
                             int data;
@@ -127,7 +139,7 @@ namespace WindowsFormsApplication1
                                 data=  Convert.ToInt32(codigo.GetAttribute("ANO-DO-ARTIGO"));
                             if (data > 2013 && data < 1900)
                                 data = 0;
-                            Program.estru.artig.adiciona(Program.estru.artigo.Count, codigo.GetAttribute("TITULO-DO-ARTIGO"), natureza,data, contador, i, coautores);
+                            Program.estru.artig.adiciona(Program.estru.artigo.Count, codigo.GetAttribute("TITULO-DO-ARTIGO"), natureza,data, contador, autor, coautores);
                            /* Debug.WriteLine(Program.estru.artig.codigo);
                             Debug.WriteLine(Program.estru.artig.ano);
                             Debug.WriteLine(Program.estru.artig.natureza);
@@ -140,7 +152,24 @@ namespace WindowsFormsApplication1
                     i++; // contador utilizado para cada xml, para atribuir cada autor
                 }
             }
+            Array.Sort(Program.estru.autor, delegate(autores x, autores y) { return x.nome.CompareTo(y.nome); }); // black magic man!!!
+            for (int i = 0; i < 50 && Program.estru.autor[i].nome != null; i++)
+            {
+                listBox1.Items.Add(Program.estru.autor[i].nome);
+            }
         }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        public object OrderDetailsTable { get; set; }
     }
 }
 

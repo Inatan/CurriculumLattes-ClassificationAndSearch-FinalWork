@@ -14,10 +14,10 @@ namespace XML // essas biblioteca tem o objetivo de facilitar a leitura do xml e
         public int natureza; // 1-completo 2-estendido 3-resumo
         public string qualis; // qualidade do artigo
         public int quantcoautores; // quantidade de coautores
-        public int autor; // ide do autor criador
+        public string autor; // ide do autor criador
         public List<string> coautores; // para procurar um certo coator temos os nomes de referencia bibliografica dele
         //Adiciona, constroi toda a estrutudar do artigo periodico, mas não dá a qualis pois vai ser lida em um arq csv
-        public void adiciona(int id, string titulo, int natureza, int ano, int contador, int idautor, List<string> coautor)
+        public void adiciona(int id, string titulo, int natureza, int ano, int contador, string autor, List<string> coautor)
         {
             this.natureza = natureza;
             this.codigo = id;
@@ -25,7 +25,7 @@ namespace XML // essas biblioteca tem o objetivo de facilitar a leitura do xml e
             this.ano = ano;
             this.qualis = ""; // não dá a qualis só inicializa
             this.quantcoautores = contador;
-            this.autor = idautor;
+            this.autor = autor;
             this.coautores = coautor;
         }
         public void da_qualis(string qualis) // dá a qualis do artigo usada na leitura do csv
@@ -40,18 +40,18 @@ namespace XML // essas biblioteca tem o objetivo de facilitar a leitura do xml e
         public int ano; // ano do trabalho
         public string qualis; // nota dada por a qualidade da conferencia
         public int quantcoautores; // conta quantos coautores tem
-        public int autor; // a id do autor
+        public string autor; // a id do autor
         public int natureza; // 1-completo 2-estendido 3-resumo
         public List<string> coautores; // referencias bibliografica dos coautores garantindo a pesquisa
         // adiciona, Constroi a estrutura na leitura do xml quando for ler as conferencias, apenas não passa a qualis pois ela sera lida no arquivo de qualis para a atribuir
-        public void adiciona(int id, string titulo,int natureza, int ano, int contador, int idautor, List<string> coautor)
+        public void adiciona(int id, string titulo,int natureza, int ano, int contador, string autor, List<string> coautor)
         {
             this.codigo = id;
             this.titulo = titulo;
             this.ano = ano;
             this.qualis = ""; // não dá a qualis só inicializa
             this.quantcoautores = contador;
-            this.autor = idautor;
+            this.autor = autor;
             this.natureza = natureza;
             this.coautores = coautor;
         }
