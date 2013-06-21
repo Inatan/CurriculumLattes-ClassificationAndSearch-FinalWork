@@ -19,6 +19,7 @@ namespace WindowsFormsApplication1
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        public static estruturas estru = new estruturas(); // declaração da estrutura utilizadas na referencia XML, como variavel universal para qualquer operação
         [STAThread]
         static void Main()
         {
