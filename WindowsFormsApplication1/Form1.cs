@@ -157,7 +157,12 @@ namespace WindowsFormsApplication1
             {
                 listBox1.Items.Add(Program.estru.autor[i].nome);
             }
+
+            //teste da manipulação de arquivos
+            escreveArquivos.escreveAutores(Program.estru.autor);
+            leArquivos.leAutores();
         }
+
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
