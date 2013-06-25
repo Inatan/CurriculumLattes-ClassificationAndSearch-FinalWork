@@ -41,7 +41,7 @@ namespace XML // essas biblioteca tem o objetivo de facilitar a leitura do xml e
         public string qualis; // nota dada por a qualidade da conferencia
         public int quantcoautores; // conta quantos coautores tem
         public string autor; // a id do autor
-        public int natureza; // 1-completo 2-estendido 3-resumo
+        public int natureza; // 0-completo 1-estendido 2-resumo
         public List<string> coautores; // referencias bibliografica dos coautores garantindo a pesquisa
         // adiciona, Constroi a estrutura na leitura do xml quando for ler as conferencias, apenas não passa a qualis pois ela sera lida no arquivo de qualis para a atribuir
         public void adiciona(int id, string titulo,int natureza, int ano, int contador, string autor, List<string> coautor)

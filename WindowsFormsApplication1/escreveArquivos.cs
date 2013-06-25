@@ -12,7 +12,7 @@ public class escreveArquivos
     public static void escreveAutores(autores [] autores)
     {
         //onde vai salvar
-        string nomeArq = @"C:\Users\ML\Documents\GitHub\CPD-Trab\periodicos.bin";
+        string nomeArq = "periodicos.bin";
 
         //não fiz ainda o teste se já existe pq não pensei como vamoslidar com esse caso, por enquanto deleta o arquivo quando for fazer de novo, senão buga
         FileStream stream = new FileStream(nomeArq, FileMode.CreateNew);
