@@ -26,7 +26,22 @@ namespace WindowsFormsApplication1
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+
         }
     }
 
+    public static class remove
+    {
+        public static string RemoverAcentuacao(this string texto)
+        {
+            string semAcento = string.Empty;
+            var letras = texto.Normalize(NormalizationForm.FormD).ToCharArray();
+
+            foreach (char letra in letras)
+                if (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(letra) != System.Globalization.UnicodeCategory.NonSpacingMark)
+                    semAcento += letra;
+
+            return semAcento;
+        }
+    }
     }

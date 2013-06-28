@@ -15,9 +15,9 @@ namespace XML // essas biblioteca tem o objetivo de facilitar a leitura do xml e
         public string qualis; // qualidade do artigo
         public int quantcoautores; // quantidade de coautores
         public string autor; // ide do autor criador
-        public List<string> coautores; // para procurar um certo coator temos os nomes de referencia bibliografica dele
+        //public List<string> coautores; // para procurar um certo coator temos os nomes de referencia bibliografica dele
         //Adiciona, constroi toda a estrutudar do artigo periodico, mas não dá a qualis pois vai ser lida em um arq csv
-        public void adiciona(int id, string titulo, int natureza, int ano, int contador, string autor, List<string> coautor)
+        public void adiciona(int id, string titulo, int natureza, int ano, int contador, string autor)
         {
             this.natureza = natureza;
             this.codigo = id;
@@ -26,7 +26,7 @@ namespace XML // essas biblioteca tem o objetivo de facilitar a leitura do xml e
             this.qualis = ""; // não dá a qualis só inicializa
             this.quantcoautores = contador;
             this.autor = autor;
-            this.coautores = coautor;
+          //  this.coautores = coautor;
         }
         public void da_qualis(string qualis) // dá a qualis do artigo usada na leitura do csv
         {
@@ -42,9 +42,9 @@ namespace XML // essas biblioteca tem o objetivo de facilitar a leitura do xml e
         public int quantcoautores; // conta quantos coautores tem
         public string autor; // a id do autor
         public int natureza; // 0-completo 1-estendido 2-resumo
-        public List<string> coautores; // referencias bibliografica dos coautores garantindo a pesquisa
+        //public List<string> coautores; // referencias bibliografica dos coautores garantindo a pesquisa
         // adiciona, Constroi a estrutura na leitura do xml quando for ler as conferencias, apenas não passa a qualis pois ela sera lida no arquivo de qualis para a atribuir
-        public void adiciona(int id, string titulo,int natureza, int ano, int contador, string autor, List<string> coautor)
+        public void adiciona(int id, string titulo,int natureza, int ano, int contador, string autor)
         {
             this.codigo = id;
             this.titulo = titulo;
@@ -53,7 +53,7 @@ namespace XML // essas biblioteca tem o objetivo de facilitar a leitura do xml e
             this.quantcoautores = contador;
             this.autor = autor;
             this.natureza = natureza;
-            this.coautores = coautor;
+            //this.coautores = coautor;
         }
         public void da_qualis(string qualis) // dá a qualis do artigo usada na leitura do csv
         {
@@ -66,12 +66,17 @@ namespace XML // essas biblioteca tem o objetivo de facilitar a leitura do xml e
         public string nome; // nome do autor
         public string refbibliografica; // referencia utilizada em documentos
         public int codigo;// a id do autor (Obs: não é id da curriculon lattes, mas sim uma id nova utilizando como chave de busca)
+        public string local;
+        public string pais;
+        
         //adiciona, constroi completamente a estrutura dos autores importantissima para a pesquisa desejada
-        public void adiciona(int id, string referencia, string autor)
+        public void adiciona(int id, string referencia, string autor,string local, string pais)
         {
             this.codigo = id;
             this.refbibliografica = referencia;
             this.nome = autor;
+            this.local = local;
+            this.pais = pais;
         }
     }
    public class estruturas // ideia de falitar o codigo assim já temos todas a estruturas  construtidas

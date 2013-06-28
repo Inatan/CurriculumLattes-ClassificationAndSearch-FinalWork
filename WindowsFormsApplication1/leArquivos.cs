@@ -26,7 +26,7 @@ public class leArquivos
         while (binario.PeekChar() != -1)
         {
             //le um inteiro, uma referencia, e um nome e adiciona tudo num elemento do arranjo de autores
-            Program.estru.autor[i].adiciona(binario.ReadInt32(), binario.ReadString(), binario.ReadString());
+            Program.estru.autor[i].adiciona(binario.ReadInt32(), binario.ReadString(), binario.ReadString(),binario.ReadString(),binario.ReadString());
         }
         binario.Close();
         stream.Close();
