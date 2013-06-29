@@ -109,6 +109,7 @@ namespace WindowsFormsApplication1
                             Debug.WriteLine(Program.estru.conf.quantcoautores);*/
                            // Debug.WriteLine(Program.estru.conf.titulo);
                            // Debug.WriteLine(Program.estru.conf.autor);
+                            Program.estru.conf.titulo = Program.estru.conf.titulo.TrimStart();    
                             if (string.Compare(Program.estru.conf.titulo, "") != 0)    
                         Program.estru.coferencia.Add(Program.estru.conf); // adiciona na lista de conferencias
                          //}
@@ -166,7 +167,7 @@ namespace WindowsFormsApplication1
                                  Debug.WriteLine(Program.estru.artig.quantcoautores);*/
                                 // Debug.WriteLine(Program.estru.artig.titulo);
                                 // Debug.WriteLine(Program.estru.artig.autor);
-
+                                Program.estru.artig.titulo = Program.estru.artig.titulo.TrimStart();
                                 if (string.Compare(Program.estru.artig.titulo , "")!=0)
                            Program.estru.artigo.Add(Program.estru.artig);
                            // }
@@ -421,6 +422,22 @@ namespace WindowsFormsApplication1
                     formautores.autor_nome.Text = Program.estru.autor[i].nome;
                     formautores.País.Text=Program.estru.autor[i].pais;
                     formautores.Cidade.Text = Program.estru.autor[i].local;
+                    int j = 0, k = 0;
+                    while (j < Program.estru.artigo.Count && k < Program.estru.coferencia.Count)
+                    {
+                        if (string.Compare(Program.estru.artigo[j].titulo, Program.estru.coferencia[k].titulo) < 0)
+                        {
+                            if (Program.estru.autor[i].nome == Program.estru.coferencia[k].autor)
+                                formautores.listBox2.Items.Add(Program.estru.coferencia[k].titulo);
+                            k++;
+                        }
+                        else
+                        {
+                            if (Program.estru.autor[i].nome == Program.estru.artigo[j].autor)
+                                formautores.listBox2.Items.Add(Program.estru.artigo[j].titulo);
+                            j++;
+                        }
+                    }
                     formautores.ShowDialog();
                     
                 }
@@ -429,44 +446,46 @@ namespace WindowsFormsApplication1
         private void listBox2_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             int index = listBox2.SelectedIndex;
-            string item = listBox2.Items[index].ToString();
-            for (int i = 0; i < Program.estru.coferencia.Count; i++)
-                if (item == Program.estru.coferencia[i].titulo)
-                {
-                    Form3 formartigo = new Form3();
-                    formartigo.titulo.Text = Program.estru.coferencia[i].titulo;
-                    formartigo.tipo.Text = "Conferência";
-                    formartigo.Qualis.Text = Program.estru.coferencia[i].qualis;
-                    formartigo.Autor.Text = Program.estru.coferencia[i].autor;
-                    formartigo.ano.Text = Program.estru.coferencia[i].ano.ToString();
-                    if (Program.estru.coferencia[i].natureza == 0)
-                        formartigo.Natureza.Text = "Completo";
-                    if (Program.estru.coferencia[i].natureza == 1)
-                        formartigo.Natureza.Text = "Estendido";
-                    if (Program.estru.coferencia[i].natureza == 2)
-                        formartigo.Natureza.Text = "Resumo";
-                    formartigo.ShowDialog();
-                }
-            for (int i = 0; i < Program.estru.artigo.Count; i++)
-                if (item == Program.estru.artigo[i].titulo)
-                {
-                    Form3 formartigo = new Form3();
-                    formartigo.titulo.Text = Program.estru.artigo[i].titulo;
-                    formartigo.tipo.Text = "Periódico";
-                    formartigo.Qualis.Text = Program.estru.artigo[i].qualis;
-                    formartigo.Autor.Text = Program.estru.artigo[i].autor;
-                    formartigo.ano.Text = Program.estru.artigo[i].ano.ToString();
-                    if (Program.estru.artigo[i].natureza == 0)
-                        formartigo.Natureza.Text = "Completo";
-                    if (Program.estru.artigo[i].natureza == 1)
-                        formartigo.Natureza.Text = "Estendido";
-                    if (Program.estru.artigo[i].natureza == 2)
-                        formartigo.Natureza.Text = "Resumo";
-                    formartigo.ShowDialog();
-                }
+            if (listBox2.Items[index] != null)
+            {
+                string item = listBox2.Items[index].ToString();
+                for (int i = 0; i < Program.estru.coferencia.Count; i++)
+                    if (item == Program.estru.coferencia[i].titulo)
+                    {
+                        Form3 formartigo = new Form3();
+                        formartigo.titulo.Text = Program.estru.coferencia[i].titulo;
+                        formartigo.tipo.Text = "Conferência";
+                        formartigo.Qualis.Text = Program.estru.coferencia[i].qualis;
+                        formartigo.Autor.Text = Program.estru.coferencia[i].autor;
+                        formartigo.ano.Text = Program.estru.coferencia[i].ano.ToString();
+                        if (Program.estru.coferencia[i].natureza == 0)
+                            formartigo.Natureza.Text = "Completo";
+                        if (Program.estru.coferencia[i].natureza == 1)
+                            formartigo.Natureza.Text = "Estendido";
+                        if (Program.estru.coferencia[i].natureza == 2)
+                            formartigo.Natureza.Text = "Resumo";
+                        formartigo.ShowDialog();
+                    }
+                for (int i = 0; i < Program.estru.artigo.Count; i++)
+                    if (item == Program.estru.artigo[i].titulo)
+                    {
+                        Form3 formartigo = new Form3();
+                        formartigo.titulo.Text = Program.estru.artigo[i].titulo;
+                        formartigo.tipo.Text = "Periódico";
+                        formartigo.Qualis.Text = Program.estru.artigo[i].qualis;
+                        formartigo.Autor.Text = Program.estru.artigo[i].autor;
+                        formartigo.ano.Text = Program.estru.artigo[i].ano.ToString();
+                        if (Program.estru.artigo[i].natureza == 0)
+                            formartigo.Natureza.Text = "Completo";
+                        if (Program.estru.artigo[i].natureza == 1)
+                            formartigo.Natureza.Text = "Estendido";
+                        if (Program.estru.artigo[i].natureza == 2)
+                            formartigo.Natureza.Text = "Resumo";
+                        formartigo.ShowDialog();
+                    }
 
+            }
         }
-
 
     }
 
