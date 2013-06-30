@@ -23,7 +23,7 @@ namespace XML // essas biblioteca tem o objetivo de facilitar a leitura do xml e
             this.codigo = id;
             this.titulo = titulo;
             this.ano = ano;
-            this.qualis = ""; // não dá a qualis só inicializa
+            this.qualis = "NE"; // não dá a qualis só inicializa
             this.quantcoautores = contador;
             this.autor = autor;
           //  this.coautores = coautor;
@@ -49,7 +49,7 @@ namespace XML // essas biblioteca tem o objetivo de facilitar a leitura do xml e
             this.codigo = id;
             this.titulo = titulo;
             this.ano = ano;
-            this.qualis = ""; // não dá a qualis só inicializa
+            this.qualis = "NE"; // não dá a qualis só inicializa
             this.quantcoautores = contador;
             this.autor = autor;
             this.natureza = natureza;

@@ -35,9 +35,9 @@ namespace WindowsFormsApplication1
         private void button1_Click(object sender, EventArgs e)
         {
             //criar arquivo pras produções dos autores
-            //string nomeArq = "prodAut.bin";
-            //FileStream stream = new FileStream(nomeArq, FileMode.CreateNew);
-            //BinaryWriter binario = new BinaryWriter(stream);
+            string nomeArq = "prodAut.bin";
+            FileStream stream = new FileStream(nomeArq, FileMode.CreateNew);
+            BinaryWriter binario = new BinaryWriter(stream);
 
             FolderBrowserDialog folderbrowser = new FolderBrowserDialog(); // cria uma janela para abrir pasta
             folderbrowser.Description = "Selecione o diretório que contém os arquivos .xml"; //texto da janela
@@ -83,6 +83,9 @@ namespace WindowsFormsApplication1
                                 {
                                     coautores.Add(autoria.GetAttribute("NOME-COMPLETO-DO-AUTOR")); // da o nome completo desse co autor
                                     contador++; // adiciona coautor
+                                    binario.Write(Program.estru.coferencia.Count+Program.estru.artigo.Count); 
+                                    binario.Write(autoria.GetAttribute("NOME-COMPLETO-DO-AUTOR"));
+                                    binario.Flush();
                                 }
                             }
                             int data=0; // se a data for 0 é considerado que não foi dada ou está com erro
@@ -147,6 +150,8 @@ namespace WindowsFormsApplication1
                                 {
                                     coautores.Add(autoria.GetAttribute("NOME-COMPLETO-DO-AUTOR")); // da o nome completo desse co autor
                                     contador++; // adiciona coautor
+                                    binario.Write(Program.estru.coferencia.Count + Program.estru.artigo.Count);
+                                    binario.Write(autoria.GetAttribute("NOME-COMPLETO-DO-AUTOR"));
                                 }
                             }
                             int data;
@@ -199,8 +204,10 @@ namespace WindowsFormsApplication1
             }
 
             //teste da manipulação de arquivos
-          //  escreveArquivos.escreveAutores(Program.estru.autor);
-           // leArquivos.leAutores();
+            escreveArquivos.escreveConferencias();
+            escreveArquivos.escrevePeriodicos();
+           escreveArquivos.escreveAutores();
+            
         }
 
 
@@ -428,16 +435,52 @@ namespace WindowsFormsApplication1
                         if (string.Compare(Program.estru.artigo[j].titulo, Program.estru.coferencia[k].titulo) < 0)
                         {
                             if (Program.estru.autor[i].nome == Program.estru.coferencia[k].autor)
-                                formautores.listBox2.Items.Add(Program.estru.coferencia[k].titulo);
+                                formautores.titulos.Add(Program.estru.coferencia[k].titulo);
                             k++;
                         }
                         else
                         {
                             if (Program.estru.autor[i].nome == Program.estru.artigo[j].autor)
-                                formautores.listBox2.Items.Add(Program.estru.artigo[j].titulo);
+                                formautores.titulos.Add(Program.estru.artigo[j].titulo);
                             j++;
                         }
                     }
+                    formautores.titulos.Sort();
+                    for(j=0;j<formautores.titulos.Count;j++)
+                        formautores.listBox2.Items.Add(formautores.titulos[j]);
+                    string nomeArq = "prodAut.bin";
+                    FileStream stream = new FileStream(nomeArq, FileMode.Open);
+                    BinaryReader binario = new BinaryReader(stream);
+                    //int i = 0;
+                    while (binario.BaseStream.Position != binario.BaseStream.Length)
+                    {
+                        int cod = binario.ReadInt32();
+                        string coautor = binario.ReadString();
+                        if (coautor == Program.estru.autor[i].nome)
+                        {
+                            j = 0;
+                            k = 0;
+                            while (j < Program.estru.artigo.Count && k < Program.estru.coferencia.Count)
+                            {
+                                if (string.Compare(Program.estru.artigo[j].titulo, Program.estru.coferencia[k].titulo) < 0)
+                                {
+                                    if (cod == Program.estru.coferencia[k].codigo)
+                                        formautores.titulosco.Add(Program.estru.coferencia[k].titulo);
+                                    k++;
+                                }
+                                else
+                                {
+                                    if (cod == Program.estru.artigo[j].codigo)
+                                        formautores.titulosco.Add(Program.estru.artigo[j].titulo);
+                                    j++;
+                                }
+                            }
+                        }
+                    }
+                    formautores.titulosco.Sort();
+                    for (j = 0; j < formautores.titulosco.Count; j++)
+                        formautores.listBox1.Items.Add(formautores.titulosco[j]);
+                    binario.Close();
                     formautores.ShowDialog();
                     
                 }
@@ -452,6 +495,7 @@ namespace WindowsFormsApplication1
                 for (int i = 0; i < Program.estru.coferencia.Count; i++)
                     if (item == Program.estru.coferencia[i].titulo)
                     {
+                        List<string> coautores = new List<string>();
                         Form3 formartigo = new Form3();
                         formartigo.titulo.Text = Program.estru.coferencia[i].titulo;
                         formartigo.tipo.Text = "Conferência";
@@ -464,11 +508,28 @@ namespace WindowsFormsApplication1
                             formartigo.Natureza.Text = "Estendido";
                         if (Program.estru.coferencia[i].natureza == 2)
                             formartigo.Natureza.Text = "Resumo";
+                        string nomeArq = "prodAut.bin";
+                        FileStream stream = new FileStream(nomeArq, FileMode.Open);
+                        BinaryReader binario = new BinaryReader(stream);
+                        //int i = 0;
+                        while (binario.BaseStream.Position != binario.BaseStream.Length)
+                        {
+                            int cod = binario.ReadInt32();
+                            string coautor = binario.ReadString();
+                            if (cod == Program.estru.coferencia[i].codigo)
+                                coautores.Add(coautor);
+
+                        }
+                        binario.Close();
+                        coautores.Sort();
+                        for (int j = 0; j < coautores.Count; j++)
+                            formartigo.listBox1.Items.Add(coautores[j]);
                         formartigo.ShowDialog();
                     }
                 for (int i = 0; i < Program.estru.artigo.Count; i++)
                     if (item == Program.estru.artigo[i].titulo)
                     {
+                        List<string> coautores = new List<string>();
                         Form3 formartigo = new Form3();
                         formartigo.titulo.Text = Program.estru.artigo[i].titulo;
                         formartigo.tipo.Text = "Periódico";
@@ -481,9 +542,50 @@ namespace WindowsFormsApplication1
                             formartigo.Natureza.Text = "Estendido";
                         if (Program.estru.artigo[i].natureza == 2)
                             formartigo.Natureza.Text = "Resumo";
+                        string nomeArq = "prodAut.bin";
+                        FileStream stream = new FileStream(nomeArq, FileMode.Open);
+                        BinaryReader binario = new BinaryReader(stream);
+                        //int i = 0;
+                        while (binario.BaseStream.Position != binario.BaseStream.Length)
+                        {
+                            int cod = binario.ReadInt32();
+                            string coautor = binario.ReadString();
+                            if ( cod == Program.estru.artigo[i].codigo)
+                                coautores.Add(coautor);
+                        }
+                        coautores.Sort();
+                        for (int j = 0; j < coautores.Count; j++)
+                            formartigo.listBox1.Items.Add(coautores[j]);
+                        binario.Close();
                         formartigo.ShowDialog();
                     }
 
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+
+            leArquivos.lePeriodicos();
+            leArquivos.leConferencias();
+            leArquivos.leAutores();
+            for (int i = 0; i < 50 && Program.estru.autor[i].nome != null; i++) // deixa em ordem alfabetica
+            {
+                listBox1.Items.Add(Program.estru.autor[i].nome); // coloca na textlistbox
+            }
+            int k = 0, j = 0;
+            while (j < Program.estru.artigo.Count && k < Program.estru.coferencia.Count)
+            {
+                if (string.Compare(Program.estru.artigo[j].titulo, Program.estru.coferencia[k].titulo) < 0)
+                {
+                    listBox2.Items.Add(Program.estru.artigo[j].titulo);
+                    j++;
+                }
+                else
+                {
+                    listBox2.Items.Add(Program.estru.coferencia[k].titulo);
+                    k++;
+                }
             }
         }
 

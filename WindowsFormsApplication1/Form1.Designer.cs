@@ -223,6 +223,7 @@
             this.button9.TabIndex = 16;
             this.button9.Text = "Carregar";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // Form1
             // 
