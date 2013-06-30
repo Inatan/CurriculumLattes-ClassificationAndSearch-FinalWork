@@ -12,6 +12,39 @@ using XML;
 
 public class leArquivos
 {
+    //retorna a string que achar depois do nome no arquivo csv
+        public static string achaQUALIS(string procurado)
+        {
+            System.Text.Encoding iso_8859_1 = System.Text.Encoding.GetEncoding("iso-8859-1");
+            System.Text.Encoding utf_8 = System.Text.Encoding.UTF8;
+            
+            //path do arquivo aqui
+            StreamReader stream = new StreamReader(@"periodicos.csv");
+
+            
+            string linha = null;
+            string[] colunas;
+
+            //ler as linhas
+            while ((linha = stream.ReadLine()) != null)
+            {
+                //separar elas
+                colunas = linha.Split(';');
+                
+                //se o nome for igual
+                //Encoding.UTF8.GetString(Encoding.GetEncoding("iso-8859-1").GetBytes(colunas[1])).Contains(procurado)
+                if (colunas[1].Contains(procurado))
+                {
+                    stream.Close();
+                    return (colunas[2]);
+                }
+            }
+
+            //não achou o nome no arquivo
+            stream.Close();
+            return ("N/C");
+            
+        }
     public static void leAutores()
     {
         string nomeArq = "autores.bin";
