@@ -107,7 +107,7 @@ namespace WindowsFormsApplication1
                                 // {
 
                                 Program.estru.conf.adiciona(Program.estru.coferencia.Count + Program.estru.artigo.Count, codigo.GetAttribute("TITULO-DO-TRABALHO"), natureza, data, contador, autor);
-                                Program.estru.artig.qualis = leArquivos.achaQUALIS(codigo.GetAttribute("DETALHAMENTO-DO-ARTIGO TITULO-DO-PERIODICO-OU-REVISTA"));
+
                                 //*******************************************************************************************************************************//
                                 //.Código
                                 //binario.Write(Program.estru.autor[i].codigo); 
@@ -172,38 +172,6 @@ namespace WindowsFormsApplication1
                                 //{
 
                                 Program.estru.artig.adiciona(Program.estru.artigo.Count + Program.estru.coferencia.Count, codigo.GetAttribute("TITULO-DO-ARTIGO"), natureza, data, contador, autor);
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                Program.estru.artig.qualis = leArquivos.achaQUALIS(codigo.GetAttribute("DETALHAMENTO-DO-ARTIGO TITULO-DO-PERIODICO-OU-REVISTA"));
-                               
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                 /* Debug.WriteLine(Program.estru.artig.codigo);
                                  Debug.WriteLine(Program.estru.artig.ano);
                                  Debug.WriteLine(Program.estru.artig.natureza);
@@ -285,13 +253,11 @@ namespace WindowsFormsApplication1
                 if (string.Compare(Program.estru.artigo[j].qualis, Program.estru.coferencia[i].qualis) < 0) // testa a ordem alfabetica e coloca o maior na lista
                 {
                     listBox2.Items.Add(Program.estru.artigo[j].titulo);
-                    listBox2.Items.Add(Program.estru.artigo[j].qualis);
                     j--;
                 }
                 else
                 {
                     listBox2.Items.Add(Program.estru.coferencia[i].titulo);
-                    listBox2.Items.Add(Program.estru.artigo[j].qualis);
                     i--;
                 }
             }
