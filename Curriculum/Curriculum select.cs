@@ -67,7 +67,8 @@ namespace WindowsFormsApplication1
 
                             foreach (XmlElement artigos in next[1].ChildNodes[0]) //transforma o nodo PRODUCAO-BIBLIOGRAFICA/TRABALHOS-EM-EVENTOS em um elemento para esse nodo
                             {
-                                XmlElement codigo = (XmlElement)artigos.ChildNodes[0]; // pega o elemento de DADOS-BASICOS-DO-TRABALHO 
+                                XmlElement codigo = (XmlElement)artigos.ChildNodes[0];
+                                XmlElement detalhe = (XmlElement)artigos.ChildNodes[1];// pega o elemento de DADOS-BASICOS-DO-TRABALHO 
                                 XmlNode procura = artigos; // pega a estrutura nodo TRABALHOS-EM-EVENTOS
                                 string autor = "";
                                 List<string> coautores = new List<string>();// para pegar o nome dos autores
@@ -105,9 +106,9 @@ namespace WindowsFormsApplication1
                                 // adiciona dados da conferencia
                                 // if (codigo.GetAttribute("TITULO-DO-TRABALHO") != "")
                                 // {
-
+                                
                                 Program.estru.conf.adiciona(Program.estru.coferencia.Count + Program.estru.artigo.Count, codigo.GetAttribute("TITULO-DO-TRABALHO"), natureza, data, contador, autor);
-                                Program.estru.artig.qualis = leArquivos.achaQUALIS(codigo.GetAttribute("DETALHAMENTO-DO-ARTIGO TITULO-DO-PERIODICO-OU-REVISTA"));
+                                Program.estru.conf.da_qualis(leArquivos.achaQUALISC(detalhe.GetAttribute("NOME-DO-EVENTO")));
                                 //*******************************************************************************************************************************//
                                 //.Código
                                 //binario.Write(Program.estru.autor[i].codigo); 
@@ -132,6 +133,7 @@ namespace WindowsFormsApplication1
                             foreach (XmlElement artigos in next[1].ChildNodes[1]) // nodo PRODUCAO-BIBLIOGRAFICA/ARTIGOS-PUBLICADOS
                             {
                                 XmlElement codigo = (XmlElement)artigos.ChildNodes[0];
+                                XmlElement detalhe = (XmlElement)artigos.ChildNodes[1];
                                 XmlNode procura = artigos;
                                 string autor = "";
                                 List<string> coautores = new List<string>();
@@ -186,7 +188,7 @@ namespace WindowsFormsApplication1
                                 
                                 
                                 
-                                Program.estru.artig.qualis = leArquivos.achaQUALIS(codigo.GetAttribute("DETALHAMENTO-DO-ARTIGO TITULO-DO-PERIODICO-OU-REVISTA"));
+                                Program.estru.artig.da_qualis( leArquivos.achaQUALIS(detalhe.GetAttribute("TITULO-DO-PERIODICO-OU-REVISTA")));
                                
  
 
@@ -218,6 +220,7 @@ namespace WindowsFormsApplication1
                         i++; // contador utilizado para cada xml, para atribuir cada autor
                     }
                 }
+                binario.Close();
                 Array.Sort(Program.estru.autor, delegate(autores x, autores y) { return x.nome.CompareTo(y.nome); }); // seleciona a chave para ordenar a classe a travez dessa chave
                 for (int i = 0; i < 50 && Program.estru.autor[i].nome != null; i++) // deixa em ordem alfabetica
                 {
@@ -277,22 +280,20 @@ namespace WindowsFormsApplication1
             Program.estru.artigo.Sort(delegate(artigo x, artigo y) { return x.titulo.CompareTo(y.titulo); });
             Program.estru.coferencia.Sort(delegate(conferencias x, conferencias y) { return x.qualis.CompareTo(y.qualis); });
             Program.estru.artigo.Sort(delegate(artigo x, artigo y) { return x.qualis.CompareTo(y.qualis); });
-            int i = Program.estru.coferencia.Count - 1; // começa do maior para o menor
-            int j = Program.estru.artigo.Count - 1;
-            while (j > 0 && i > 0) // compara até o laço for zero
+            int i = 0; // começa do maior para o menor
+            int j = 0;
+            while (j < Program.estru.artigo.Count && i < Program.estru.coferencia.Count) // compara até o laço for zero
                
             {
                 if (string.Compare(Program.estru.artigo[j].qualis, Program.estru.coferencia[i].qualis) < 0) // testa a ordem alfabetica e coloca o maior na lista
                 {
                     listBox2.Items.Add(Program.estru.artigo[j].titulo);
-                    listBox2.Items.Add(Program.estru.artigo[j].qualis);
-                    j--;
+                    j++;
                 }
                 else
                 {
                     listBox2.Items.Add(Program.estru.coferencia[i].titulo);
-                    listBox2.Items.Add(Program.estru.artigo[j].qualis);
-                    i--;
+                    i++;
                 }
             }
 

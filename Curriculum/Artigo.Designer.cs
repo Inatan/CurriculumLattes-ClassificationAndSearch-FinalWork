@@ -58,15 +58,15 @@
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(234, 73);
+            this.listBox1.Location = new System.Drawing.Point(275, 54);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(408, 147);
+            this.listBox1.Size = new System.Drawing.Size(448, 147);
             this.listBox1.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(231, 40);
+            this.label2.Location = new System.Drawing.Point(272, 38);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 2;
@@ -75,7 +75,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 180);
+            this.label3.Location = new System.Drawing.Point(12, 188);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 3;
@@ -165,7 +165,7 @@
             // Autor
             // 
             this.Autor.AutoSize = true;
-            this.Autor.Location = new System.Drawing.Point(52, 180);
+            this.Autor.Location = new System.Drawing.Point(47, 188);
             this.Autor.Name = "Autor";
             this.Autor.Size = new System.Drawing.Size(45, 13);
             this.Autor.TabIndex = 13;
@@ -185,7 +185,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(654, 282);
+            this.ClientSize = new System.Drawing.Size(735, 282);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.Autor);
             this.Controls.Add(this.Qualis);

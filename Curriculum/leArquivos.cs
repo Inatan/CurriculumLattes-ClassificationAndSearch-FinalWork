@@ -19,7 +19,7 @@ public class leArquivos
             System.Text.Encoding utf_8 = System.Text.Encoding.UTF8;
             
             //path do arquivo aqui
-            StreamReader stream = new StreamReader(@"periodicos.csv");
+            StreamReader stream = new StreamReader("periodicos.csv");
 
             
             string linha = null;
@@ -33,10 +33,13 @@ public class leArquivos
                 
                 //se o nome for igual
                 //Encoding.UTF8.GetString(Encoding.GetEncoding("iso-8859-1").GetBytes(colunas[1])).Contains(procurado)
-                if (colunas[1].Contains(procurado))
+                if (Encoding.UTF8.GetString(Encoding.GetEncoding("iso-8859-1").GetBytes(colunas[1])).Contains(procurado))
                 {
                     stream.Close();
-                    return (colunas[2]);
+                    if (colunas[colunas.Length - 1] == "")
+                        return ("N/C");
+                    else
+                    return (colunas[colunas.Length-1]);
                 }
             }
 
@@ -44,6 +47,41 @@ public class leArquivos
             stream.Close();
             return ("N/C");
             
+        }
+
+        public static string achaQUALISC(string procurado)
+        {
+            System.Text.Encoding iso_8859_1 = System.Text.Encoding.GetEncoding("iso-8859-1");
+            System.Text.Encoding utf_8 = System.Text.Encoding.UTF8;
+            //path do arquivo aqui
+            StreamReader stream = new StreamReader("conferencias.csv");
+
+
+            string linha = null;
+            string[] colunas;
+
+            //ler as linhas
+            while ((linha = stream.ReadLine()) != null)
+            {
+                //separar elas
+                colunas = linha.Split(';');
+
+                //se o nome for igual
+                //Encoding.UTF8.GetString(Encoding.GetEncoding("iso-8859-1").GetBytes(colunas[1])).Contains(procurado)
+                if (procurado.Contains(Encoding.UTF8.GetString(Encoding.GetEncoding("iso-8859-1").GetBytes(colunas[1]))))
+                {
+                    stream.Close();
+                    if (colunas[colunas.Length - 1] == "")
+                        return ("N/C");
+                    else
+                    return (colunas[colunas.Length-1]);
+                }
+            }
+
+            //não achou o nome no arquivo
+            stream.Close();
+            return ("N/C");
+
         }
     public static void leAutores()
     {
